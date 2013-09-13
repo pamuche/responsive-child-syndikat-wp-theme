@@ -1,0 +1,9 @@
+/*
+Theme Name:     Responsive Child Syndikat WP-Theme
+Template:       
+Notice: Undefined variable: parent_template_name in /var/www/syndikat-wp/test/wp-content/plugins/one-click-child-theme/rtl-css.php on line 3
+
+
+Right to Left text support.
+*/
+@import url("../responsive/rtl.css");
