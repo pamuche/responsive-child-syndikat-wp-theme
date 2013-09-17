@@ -36,6 +36,72 @@ get_header(); ?>
 
                 <div class="post-entry">
 
+                
+                
+				<?php // ################################ BEGIN SYNDIKAT CUSTOM STUFF ########################?>
+				<?php 
+				$groupId = 807;
+				$fields = apply_filters('acf/field_group/get_fields', array(), $groupId);
+				?>
+	
+	
+				<?php if( $fields ): ?>
+				<div class="alignleft"
+					style="width: 220px; height: 160px; background-color: #dbe6f4; padding: 10px;"
+					align="left">
+					<strong>Adressdaten / Kontakt:</strong>
+					<?php foreach( $fields as $field ): ?>
+					<?php
+					$value = get_field($field['name']);
+	
+	
+					?>
+					<?php if( $value ): ?>
+					<?php echo $field['label']; ?>
+					:
+					<?php echo $value; ?>
+					<?php endif; ?>
+	
+					<?php endforeach; ?>
+				</div>
+				<?php endif; ?>
+	
+	
+				<?php 
+				$groupId = 808;
+				$fields = apply_filters('acf/field_group/get_fields', array(), $groupId);
+				?>
+	
+	
+				<?php if( $fields ): ?>
+				<div class="alignleft"
+					style="width: 220px; height: 160px; background-color: #dbe6f4; padding: 10px;"
+					align="left">
+					<strong>Projektdaten / Zahlen:</strong>
+					<?php foreach( $fields as $field ): ?>
+					<?php
+					$value = get_field($field['name']);
+	
+	
+					?>
+					<?php if( $value ): ?>
+					<?php echo $field['label']; ?>
+					:
+					<?php echo $value; ?>
+					<?php endif; ?>
+	
+					<?php endforeach; ?>
+				</div>
+				<?php endif; ?>
+	
+	
+	
+				<div style="clear: both;"></div>
+	
+				<?php // ################################ END SYNDIKAT CUSTOM STUFF ########################?>
+
+			
+			
 				<?php the_content(__('Read more &#8250;', 'responsive')); ?>
 
 				<?php if ( get_the_author_meta('description') != '' ) : ?>
