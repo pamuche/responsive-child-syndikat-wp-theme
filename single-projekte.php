@@ -39,64 +39,22 @@ get_header(); ?>
                 
                 
 				<?php // ################################ BEGIN SYNDIKAT CUSTOM STUFF ########################?>
+
+				<?php echo get_the_post_thumbnail(get_the_ID(), 'thumbnail'); ?>
+				
 				<?php 
-				$groupId = 807;
-				$fields = apply_filters('acf/field_group/get_fields', array(), $groupId);
+				$kontakt_group_id = 807;
+				$kontakt_fields = apply_filters('acf/field_group/get_fields', array(), $kontakt_group_id);
+								
+				projekt_data_table($kontakt_fields, "Adressdaten / Kontakt");
+				
+				$data_group_id = 808;
+				$data_fields = apply_filters('acf/field_group/get_fields', array(), $data_group_id);
+				
+				projekt_data_table($data_fields, "Projektdaten / Zahlen");
+				
 				?>
-	
-	
-				<?php if( $fields ): ?>
-				<div class="alignleft"
-					style="width: 220px; height: 160px; background-color: #dbe6f4; padding: 10px;"
-					align="left">
-					<strong>Adressdaten / Kontakt:</strong>
-					<?php foreach( $fields as $field ): ?>
-					<?php
-					$value = get_field($field['name']);
-	
-	
-					?>
-					<?php if( $value ): ?>
-					<?php echo $field['label']; ?>
-					:
-					<?php echo $value; ?>
-					<?php endif; ?>
-	
-					<?php endforeach; ?>
-				</div>
-				<?php endif; ?>
-	
-	
-				<?php 
-				$groupId = 808;
-				$fields = apply_filters('acf/field_group/get_fields', array(), $groupId);
-				?>
-	
-	
-				<?php if( $fields ): ?>
-				<div class="alignleft"
-					style="width: 220px; height: 160px; background-color: #dbe6f4; padding: 10px;"
-					align="left">
-					<strong>Projektdaten / Zahlen:</strong>
-					<?php foreach( $fields as $field ): ?>
-					<?php
-					$value = get_field($field['name']);
-	
-	
-					?>
-					<?php if( $value ): ?>
-					<?php echo $field['label']; ?>
-					:
-					<?php echo $value; ?>
-					<?php endif; ?>
-	
-					<?php endforeach; ?>
-				</div>
-				<?php endif; ?>
-	
-	
-	
-				<div style="clear: both;"></div>
+		
 	
 				<?php // ################################ END SYNDIKAT CUSTOM STUFF ########################?>
 

@@ -65,6 +65,8 @@
 * WP Ultimate CSV Importer - Daten aus csv Dateien importieren.
   Könnte für den initialen Import der Projekte/Initiativen genutzt werden. Anschließend lieber deaktivieren!
   ACHTUNG: Lizenz unklar - vermutlich nicht OpenSource -> muss gekauft werden
+  
+* Custom Post Type UI 0.8 - zum erstellen der Projekte Post types. Kann wenn die Struktur fest steht gelöscht werden.
  
 == deaktiviert ==
 Waren aktiviert. Konnte keine Verwendung finden / Vorteil nicht erkennen den das Plugin bietet sollte
@@ -78,3 +80,9 @@ Waren aktiviert. Konnte keine Verwendung finden / Vorteil nicht erkennen den das
   
 == noch offen ==
 * ein sinnvolles caching plugin
+
+
+
+
+
+
