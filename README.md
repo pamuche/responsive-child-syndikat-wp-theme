@@ -71,7 +71,7 @@
 == deaktiviert ==
 Waren aktiviert. Konnte keine Verwendung finden / Vorteil nicht erkennen den das Plugin bietet sollte
 
-* Advanced iFrame (iframes sind echt evil)
+* Advanced iFrame (iframes sind echt evil) - war wohl zur Einbindung der bisher erstellten Projekte Karte
 * Breadcrumb NavXT (war nirgends benutzt - die Seitenstruktur ist ja auch eher hierarchisch)
 * Content Aware Sidebars - nicht genutzt
 * One-Click Child Theme - nach initialem Erstellen des Child-Themes nicht mehr benötigt
