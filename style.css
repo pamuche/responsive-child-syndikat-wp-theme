@@ -420,5 +420,9 @@ overflow:auto;
 	font-size: 18px;
 }
 
+#map {
+	 padding-top: 50px;
+     height:400px; 
+}
 
  
