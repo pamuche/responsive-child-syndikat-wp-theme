@@ -1,6 +1,19 @@
 = Theme =
 * Responsive Child Syndikat WP-Theme aktiviert
 
+Verfügbare columns:
+.col-60, 
+.col-140, 
+.col-220, 
+.col-300, 
+.col-380, 
+.col-460, 
+.col-540, 
+.col-620, 
+.col-700, 
+.col-780, 
+.col-860
+
 == Anpassen ==
 * Seitentitel und Untertitel
 * Farben
