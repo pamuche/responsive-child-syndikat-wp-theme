@@ -399,12 +399,25 @@ body.page .entry-title, body.page .entry-header { display: none; }
   color: #993333;
 }
 
+
+
+/* Projekt/Initiativen Seiten */
 .projekt-data-table {
 /* 	width: 220px;  */
 /* 	height: 160px;  */
 /* 	background-color: #dbe6f4;  */
 /* 	padding: 10px;" */
 /* 	align="left" */
+}
+
+/* /* Projekt Listen Seite */
+.projekt-entry {
+/* 	display: block; */
+/* 	height: 90px; */
+overflow:auto;
+}
+.projektName a {
+	font-size: 18px;
 }
 
 

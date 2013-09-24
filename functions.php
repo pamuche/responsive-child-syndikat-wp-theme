@@ -9,8 +9,15 @@ if ( !defined('ABSPATH')) exit;
  *
  */
 
-// Wir benutzen Beitragsbilder für Projekte
-add_theme_support( 'post-thumbnails' );
+// Wir benutzen Beitragsbilder für Projekte und benötigen in der Listenansicht eine andere Größe
+if ( function_exists( 'add_theme_support' ) ) {
+	add_theme_support( 'post-thumbnails' );
+}
+if ( function_exists( 'add_image_size' ) ) {
+	add_image_size( 'projekt-liste', 80, 80 );
+}
+
+
 
 function projekt_data_table($fields_to_show, $table_head) {
 	echo "<table class='projekt-data-table'>";
@@ -36,7 +43,6 @@ function projekt_data_table($fields_to_show, $table_head) {
 
 	echo "</table>";
 }
-
 
 
 
