@@ -15,10 +15,10 @@ if ( !defined('ABSPATH')) exit;
 wp_deregister_script( 'jquery' );
 wp_enqueue_script( 'jquery', 'http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js', array(), null, false );
 
-wp_enqueue_style( 'jvectormap-style', get_stylesheet_directory_uri() . '/js/jquery-jvectormap.css', array(), '20120805', 'all' );
-wp_enqueue_script( 'jvectormap-script', get_stylesheet_directory_uri() . '/js/jquery-jvectormap.min.js', array( 'jquery' ), '20120805', true );
-wp_enqueue_script( 'jvectormap-map', get_stylesheet_directory_uri() . '/js/jquery-jvectormap-de-merc-en.js', array( 'jquery' ), '20120805', true );
-wp_enqueue_script( 'jvectormap-map_code', get_stylesheet_directory_uri() . '/js/map_config.js', array( 'jquery' ), '20120805', true );
+wp_enqueue_style( 'jvectormap-style', get_stylesheet_directory_uri() . '/js/jquery-jvectormap.css', array(), false, 'all' );
+wp_enqueue_script( 'jvectormap-script', get_stylesheet_directory_uri() . '/js/jquery-jvectormap.min.js', array( 'jquery' ), false, true );
+wp_enqueue_script( 'jvectormap-map', get_stylesheet_directory_uri() . '/js/jquery-jvectormap-de-merc-en.js', array( 'jquery' ), false, true );
+wp_enqueue_script( 'jvectormap-map_code', get_stylesheet_directory_uri() . '/js/map_config.js', array( 'jquery' ), false, true );
 
 
 
@@ -43,6 +43,9 @@ get_header(); ?>
 //         the_content();
 //         echo '</div>';
 //         endwhile;
+        
+        global $markers;
+        $markers = array();
         
         ?>   
                    
@@ -84,6 +87,11 @@ get_header(); ?>
                 <?php // get_template_part( 'post-data' ); ?>
 				               
 				<?php responsive_entry_bottom(); ?>      
+				
+				<?php
+					//Kartendaten bereitstellen
+					$markers[] = "bla"
+				?>
 			</div><!-- end of #projekt-<?php the_ID(); ?> -->       
 			<?php responsive_entry_after(); ?>
             
@@ -105,6 +113,9 @@ get_header(); ?>
 
                    </div>
         </div>
-
-<?php //get_sidebar(); ?>
+        <?php 
+      //Marker auf Karte hinzufügen
+       
+        
+        ?>
 <?php get_footer(); ?>
