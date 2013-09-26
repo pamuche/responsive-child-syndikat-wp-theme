@@ -8,6 +8,7 @@
 						});
 
 						var pageLoaderID = 42;
+					
 
 						$('#map')
 						.vectorMap(
@@ -15,7 +16,8 @@
 
 											map : 'de_merc_en',
 											backgroundColor: 'white',
-											markers: [{'latLng': [51.3288,12.371], 'name': "Leipzig"}],
+											markers: syndikats_orte,
+//											markers: [{'latLng': [51.3288,12.371], 'name': "Leipzig"}],
 											regionStyle: {
 												  initial: {
 													    fill: 'white',
