@@ -44,7 +44,7 @@ get_header(); ?>
 //         echo '</div>';
 //         endwhile;
         
-        $syndikats_orte = array();
+        $syndikats_projekte = array();
         
         ?>   
                    
@@ -91,10 +91,12 @@ get_header(); ?>
 					//Kartendaten bereitstellen
 // 					array_push($syndikats-orte, array('Leipzig', '51.3288', '12.371'));
 					$ort = get_field('ort');
-					$gps = get_field('gps');
-					if ( $ort && $gps ) :
+					$gps = explode(',', get_field('gps'));
+					$lng = (float) $gps[0];
+					$lat = (float) $gps[1];
+					if ( is_string($ort) && ($ort !== '') && is_float($lat) && is_float($lng) ) :
 						//$syndikats_orte[] = array('name' => 'Leipzig', 'latLng' => array(51.3288, 12.371));
-						$syndikats_orte[] = array('name' => $ort, 'latLng' => $gps);
+						$syndikats_projekte[] = array('ort' => $ort, 'lat' => $lat, 'lng' => $lng);
 					endif;
 				?>
 			</div><!-- end of #projekt-<?php the_ID(); ?> -->       
@@ -119,8 +121,32 @@ get_header(); ?>
                    </div>
         </div>
         <?php 
+      //Projekte per Ort zählen
+      $syndikats_orte = array();
+      foreach ( $syndikats_projekte as $projekt) {
+      	$ort = $projekt['ort'];
+      	$ort_already_exists = isset( $syndikats_orte[$ort] );
+      	if ( $ort_already_exists  ) {
+      		$syndikats_orte[$ort]['count'] += 1;
+      		$syndikats_orte[$ort]['lat'] += $projekt['lat'];
+      		$syndikats_orte[$ort]['lng'] += $projekt['lng'];
+      	} else {
+      		$syndikats_orte[$ort] = array('count' => 1, 'lat' => $projekt['lat'], 'lng' => $projekt['lng']);
+      	}
+      }
+      
+      $map_marker = array();
+      foreach ( $syndikats_orte as $ort => $daten ) {
+      	$lat = $daten['lat'] / $daten['count'];
+      	$lng = $daten['lng'] / $daten['count'];
+      	$projekte_in = ($daten['count'] == 1) ? ' Projekt in ' : ' Projekte in ';
+      	$name = $daten['count'].$projekte_in.$ort;
+      	$map_marker[] = array( 'name' => $name, 'latLng' => array($lat, $lng), 'count' => $daten['count']);
+      }
+        
       //Marker auf Karte hinzufügen
-        wp_localize_script( 'jvectormap-map_config', 'syndikats_orte', $syndikats_orte );
+//       $syndikats_projekte[] = array('ort' => $ort, 'latLng' => array($lat, $lng));
+        wp_localize_script( 'jvectormap-map_config', 'syndikats_orte', $map_marker );
         
       //javascript:
 //         map = $('#map').vectorMap('get', 'mapObject');
