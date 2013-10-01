@@ -35,15 +35,21 @@ get_header(); ?>
         <?php // ################################ BEGIN SYNDIKAT CUSTOM STUFF ########################?>
 
         <?php 
-        $args = array( 'post_type' => 'projekte', 'nopaging' => true );
-        $loop_projekte = new WP_Query( $args );
-//         while ( $loop->have_posts() ) : $loop->the_post();
-//         the_title();
-//         echo '<div class="entry-content">';
-//         the_content();
-//         echo '</div>';
-//         endwhile;
-        
+
+        $query_args = array(
+        		'post_type' => 'projekte',
+        		'nopaging' => true,
+        		'meta_query' => array()
+        );
+        // Documentation: http://codex.wordpress.org/Custom_Queries
+        if( isset( $wp_query->query_vars['ort'] )) {
+        	$query_args['meta_query'][] = array('key' => 'ort', 'value' => $wp_query->query_vars['ort']);
+        };
+        if( isset( $wp_query->query_vars['land'] )) {
+        	$query_args['meta_query'][] = array('key' => 'land', 'value' => $wp_query->query_vars['land']);
+        };
+
+        $loop_projekte = new WP_Query( $query_args );
         $syndikats_projekte = array();
         
         ?>   
@@ -67,17 +73,24 @@ get_header(); ?>
                         </a>
                     <?php endif; ?>
                     <div class='projektName'>
+                      <p>
                       <a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" >
                        <?php the_title ()?>
                       </a>
+                      
+                      <?php if(get_field('plz') && get_field('ort') && get_field('land')) { 
+                      	echo 'in '.get_field('plz').' '.get_field('ort') . ', '.get_field('land').'.'; } ?>
+                      </p>
                     </div>
                     <div class='projektDaten'>
-                    <p>
-                      <?php if(get_field('grundstucksgrosse')) { 
-                      	echo get_field('grundstucksgrosse') . ' m² Grundstück, '; } ?>
-                      	<?php if(get_field('kaufdatum')) { 
-                      	echo 'gekauft am ' . get_field('kaufdatum') . '.'; } ?>
-                    </p>
+                    <?php if(get_field('ist_projektinititative')) : ?>
+                    	<p>Leider noch ohne Haus.</p>
+                    <?php else : ?>
+	                    <p>
+	                      <?php output_fields_as_sentence(array('kauf', 'grundstuck', 'gewerbeflache', 
+	                      					'wohnflache', 'personen', 'kosten', 'miete'))?>
+	                    </p>
+                    <?php endif; ?>
                     </div>
                     <?php //the_excerpt(); ?>
                     <?php wp_link_pages(array('before' => '<div class="pagination">' . __('Pages:', 'responsive'), 'after' => '</div>')); ?>
@@ -137,11 +150,15 @@ get_header(); ?>
       
       $map_marker = array();
       foreach ( $syndikats_orte as $ort => $daten ) {
-      	$lat = $daten['lat'] / $daten['count'];
-      	$lng = $daten['lng'] / $daten['count'];
-      	$projekte_in = ($daten['count'] == 1) ? ' Projekt in ' : ' Projekte in ';
+      	$anzahl_projekte_im_ort = $daten['count'];
+      	$lat_average = $daten['lat'] / $anzahl_projekte_im_ort;
+      	$lng_average = $daten['lng'] / $anzahl_projekte_im_ort;
+      	$projekte_in = ($anzahl_projekte_im_ort == 1) ? ' Projekt in ' : ' Projekte in ';
       	$name = $daten['count'].$projekte_in.$ort;
-      	$map_marker[] = array( 'name' => $name, 'latLng' => array($lat, $lng), 'count' => $daten['count']);
+      	$map_marker[] = array( 'name' => $name, 
+      			'latLng' => array($lat_average, $lng_average), 
+      			'count' => $anzahl_projekte_im_ort,
+      			'r' => $anzahl_projekte_im_ort);
       }
         
       //Marker auf Karte hinzufügen
