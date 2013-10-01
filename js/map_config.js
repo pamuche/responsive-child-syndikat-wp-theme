@@ -26,6 +26,11 @@
 //				values: syndikats_projekte_count
 //				}]
 //				},
+				markerStyle: {
+					initial: {
+						fill: '#ffb800'
+					}
+				},
 				regionStyle: {
 					initial: {
 						fill: 'white',
@@ -35,14 +40,13 @@
 						"stroke-opacity": 1
 					},
 					hover: {
-						"fill-opacity": 0.8
-					},
-					selected: {
-						fill: 'yellow'
-					},
-					selectedHover: {
+						fill: '#ffb800',
+						"fill-opacity": 0.6
 					}
 				},
+//				onLabelShow: function(event, label, code){
+//					label.text('Bears, vodka, balalaika');
+//				},
 			});
 
 });
