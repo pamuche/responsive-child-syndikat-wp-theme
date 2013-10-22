@@ -70,8 +70,9 @@ get_header(); ?>
         ?>
         </h1>
         <?php if( isset( $wp_query->query_vars['ort'] ) || isset( $wp_query->query_vars['land'] ) ) : ?>
+        <?php $link_to_projekte = get_page_link(); ?>
         <p>
-        	<a href='/projekte'>Zurück zu der Liste aller Syndikatsprojekte</a>
+        	<a href="<?php echo $link_to_projekte; ?>">Zurück zu der Liste aller Syndikatsprojekte</a>
         </p>
 		<?php endif; ?>
                     
@@ -153,19 +154,19 @@ get_header(); ?>
 					<div id="projekte_filter_links">
 						<?php if( isset( $wp_query->query_vars['ort'] ) || isset( $wp_query->query_vars['land'] ) ) : ?>
 				        <p>
-				        	<a href='/projekte'>Zurück zu der Liste aller Syndikatsprojekte</a>
+				        	<a href="<?php echo $link_to_projekte ?>">Zurück zu der Liste aller Syndikatsprojekte</a>
 				        </p>
 						<?php else : ?>
 							<ul>
 								<?php foreach( $laender as $land => $daten ) : ?>
-								<li><a href="/projekte/?land=<?php echo $land;?>"> <?php echo projekte_in_sentence($land, $daten['count']);?>
+								<li><a href="<?php echo get_post_type_archive_link( 'Projekte' ).'?land='.$land;?>"> <?php echo projekte_in_sentence($land, $daten['count']);?>
 								</a>
 								</li>
 								<?php endforeach; ?>
 							</ul>
 							<ul>
 								<?php foreach( $orte as $ort => $daten ) : ?>
-								<li><a href="/projekte/?ort=<?php echo $ort;?>"> <?php echo projekte_in_sentence($ort, $daten['count']);?>
+								<li><a href="<?php echo get_post_type_archive_link( 'Projekte' ).'?ort='.$ort;?>"> <?php echo projekte_in_sentence($ort, $daten['count']);?>
 								</a>
 								</li>
 								<?php endforeach; ?>
