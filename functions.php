@@ -84,6 +84,48 @@ function output_fields_as_sentence($fields_to_show) {
 	}
 }
 
+function map_markers_for($syndikats_projekte) {
+
+	$syndikats_orte = count_projekte_per_place($syndikats_projekte);
+	
+	$map_marker = array();
+	foreach ( $syndikats_orte as $ort => $daten ) {
+		$anzahl_projekte_im_ort = $daten['count'];
+		$lat_average = $daten['lat'] / $anzahl_projekte_im_ort;
+		$lng_average = $daten['lng'] / $anzahl_projekte_im_ort;
+		
+		$map_marker[] = array( 'name' => projekte_in_sentence($ort, $anzahl_projekte_im_ort),
+				'latLng' => array($lat_average, $lng_average),
+				'count' => $anzahl_projekte_im_ort,
+				'r' => $anzahl_projekte_im_ort);
+	}
+	
+	return $map_marker;
+}
+
+function projekte_in_sentence($place, $count) {
+	$projekte_in = ($count == 1) ? ' Projekt in ' : ' Projekte in ';
+	$sentence = $count.$projekte_in.$place.'.';
+	return $sentence;
+}
+
+function count_projekte_per_place($syndikats_projekte, $place_type = 'ort') {
+	$syndikats_orte = array();
+	foreach ( $syndikats_projekte as $projekt) {
+		$ort = $projekt[$place_type];
+		$ort_already_exists = isset( $syndikats_orte[$ort] );
+		if ( $ort_already_exists  ) {
+			$syndikats_orte[$ort]['count'] += 1;
+			$syndikats_orte[$ort]['lat'] += $projekt['lat'];
+			$syndikats_orte[$ort]['lng'] += $projekt['lng'];
+		} else {
+			$syndikats_orte[$ort] = array('count' => 1, 'lat' => $projekt['lat'], 'lng' => $projekt['lng']);
+		}
+	}
+	ksort($syndikats_orte);
+	return $syndikats_orte;
+}
+
 
 // Query params um nur bestimmt Orte/Länder an zeigen zu können.
 

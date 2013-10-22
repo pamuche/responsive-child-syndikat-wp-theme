@@ -57,7 +57,23 @@ get_header(); ?>
         
         ?>   
                    
-
+        <h1>
+        <?php 
+        echo ($loop_projekte->post_count).' Syndikatsprojekte';
+        if( isset( $wp_query->query_vars['ort'] )) {
+        	echo ' in '.$wp_query->query_vars['ort'];
+        }
+        elseif( isset( $wp_query->query_vars['land'] )) {
+        	echo ' in '.$wp_query->query_vars['land'];
+        }
+    
+        ?>
+        </h1>
+        <?php if( isset( $wp_query->query_vars['ort'] ) || isset( $wp_query->query_vars['land'] ) ) : ?>
+        <p>
+        	<a href='/projekte'>Zurück zu der Liste aller Syndikatsprojekte</a>
+        </p>
+		<?php endif; ?>
                     
         <?php while ( $loop_projekte->have_posts() ) : $loop_projekte->the_post(); ?>
         
@@ -103,11 +119,12 @@ get_header(); ?>
 					//Kartendaten bereitstellen
 // 					array_push($syndikats-orte, array('Leipzig', '51.3288', '12.371'));
 					$ort = get_field('ort');
+					$land = get_field('land');
 					$gps = explode(',', get_field('gps'));
 					$lng = (float) $gps[0];
 					$lat = (float) $gps[1];
-					if ( is_string($ort) && ($ort !== '') && is_float($lat) && is_float($lng) ) {
-						$syndikats_projekte[] = array('ort' => $ort, 'lat' => $lat, 'lng' => $lng);
+					if ( is_string($ort) && is_string($land) && ($ort !== '') && is_float($lat) && is_float($lng) ) {
+						$syndikats_projekte[] = array('ort' => $ort, 'land' => $land, 'lat' => $lat, 'lng' => $lng);
 					}
 				?>
 			</div><!-- end of #projekt-<?php the_ID(); ?> -->       
@@ -130,43 +147,36 @@ get_header(); ?>
                    <div id="map">
 
                    </div>
-        </div>
+
+					<?php $orte = count_projekte_per_place($syndikats_projekte) ?>
+					<?php $laender = count_projekte_per_place($syndikats_projekte, 'land') ?>
+					<div id="projekte_filter_links">
+						<?php if( isset( $wp_query->query_vars['ort'] ) || isset( $wp_query->query_vars['land'] ) ) : ?>
+				        <p>
+				        	<a href='/projekte'>Zurück zu der Liste aller Syndikatsprojekte</a>
+				        </p>
+						<?php else : ?>
+							<ul>
+								<?php foreach( $laender as $land => $daten ) : ?>
+								<li><a href="/projekte/?land=<?php echo $land;?>"> <?php echo projekte_in_sentence($land, $daten['count']);?>
+								</a>
+								</li>
+								<?php endforeach; ?>
+							</ul>
+							<ul>
+								<?php foreach( $orte as $ort => $daten ) : ?>
+								<li><a href="/projekte/?ort=<?php echo $ort;?>"> <?php echo projekte_in_sentence($ort, $daten['count']);?>
+								</a>
+								</li>
+								<?php endforeach; ?>
+							</ul>
+						<?php endif; ?>
+				
+				
+					</div>
+				</div>
         <?php 
-      //Projekte per Ort zählen
-      $syndikats_orte = array();
-      foreach ( $syndikats_projekte as $projekt) {
-      	$ort = $projekt['ort'];
-      	$ort_already_exists = isset( $syndikats_orte[$ort] );
-      	if ( $ort_already_exists  ) {
-      		$syndikats_orte[$ort]['count'] += 1;
-      		$syndikats_orte[$ort]['lat'] += $projekt['lat'];
-      		$syndikats_orte[$ort]['lng'] += $projekt['lng'];
-      	} else {
-      		$syndikats_orte[$ort] = array('count' => 1, 'lat' => $projekt['lat'], 'lng' => $projekt['lng']);
-      	}
-      }
-      
-      $map_marker = array();
-      foreach ( $syndikats_orte as $ort => $daten ) {
-      	$anzahl_projekte_im_ort = $daten['count'];
-      	$lat_average = $daten['lat'] / $anzahl_projekte_im_ort;
-      	$lng_average = $daten['lng'] / $anzahl_projekte_im_ort;
-      	$projekte_in = ($anzahl_projekte_im_ort == 1) ? ' Projekt in ' : ' Projekte in ';
-      	$name = $daten['count'].$projekte_in.$ort;
-      	$map_marker[] = array( 'name' => $name, 
-      			'latLng' => array($lat_average, $lng_average), 
-      			'count' => $anzahl_projekte_im_ort,
-      			'r' => $anzahl_projekte_im_ort);
-      }
-        
-      //Marker auf Karte hinzufügen
-//       $syndikats_projekte[] = array('ort' => $ort, 'latLng' => array($lat, $lng));
-        wp_localize_script( 'jvectormap-map_config', 'syndikats_orte', $map_marker );
-        
-      //javascript:
-//         map = $('#map').vectorMap('get', 'mapObject');
-//         markers als js variable
-//         map.addMarkers(markers)
-        
+			$map_markers = map_markers_for($syndikats_projekte); 
+			wp_localize_script( 'jvectormap-map_config', 'syndikats_orte', $map_markers );
         ?>
 <?php get_footer(); ?>
