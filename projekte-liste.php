@@ -40,9 +40,9 @@ get_header(); ?>
         		'post_type' => 'projekte',
         		'nopaging' => true,
         		'meta_query' => array(),
-        		'meta_key'		=> 'beschluss',
+        		'meta_key'		=> 'plz',
         		'orderby'		=> 'meta_value_num',
-        		'order'			=> 'DESC'
+        		'order'			=> 'ASC'
         );
         // Documentation: http://codex.wordpress.org/Custom_Queries
         if( isset( $wp_query->query_vars['ort'] )) {
