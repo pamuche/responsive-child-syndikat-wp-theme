@@ -39,7 +39,10 @@ get_header(); ?>
         $query_args = array(
         		'post_type' => 'projekte',
         		'nopaging' => true,
-        		'meta_query' => array()
+        		'meta_query' => array(),
+        		'meta_key'		=> 'beschluss',
+        		'orderby'		=> 'meta_value_num',
+        		'order'			=> 'DESC'
         );
         // Documentation: http://codex.wordpress.org/Custom_Queries
         if( isset( $wp_query->query_vars['ort'] )) {
@@ -83,18 +86,14 @@ get_header(); ?>
                       </p>
                     </div>
                     <div class='projektDaten'>
-                    <?php if(get_field('ist_projektinititative')) : ?>
-                    	<p>Leider noch ohne Haus.</p>
-                    <?php else : ?>
-	                    <p>
-	                      <?php output_fields_as_sentence(array('kauf', 'grundstuck', 'gewerbeflache', 
+						<p>
+	                      <?php output_fields_as_sentence(array('beschluss', 'kauf', 'grundstuck', 'gewerbeflache', 
 	                      					'wohnflache', 'personen', 'kosten', 'miete'))?>
 	                    </p>
-                    <?php endif; ?>
                     </div>
                     <?php //the_excerpt(); ?>
                     <?php wp_link_pages(array('before' => '<div class="pagination">' . __('Pages:', 'responsive'), 'after' => '</div>')); ?>
-                </div><!-- end of .post-entry -->
+                </div><!-- end of .projekt-entry -->
                 
                 <?php // get_template_part( 'post-data' ); ?>
 				               
@@ -107,10 +106,9 @@ get_header(); ?>
 					$gps = explode(',', get_field('gps'));
 					$lng = (float) $gps[0];
 					$lat = (float) $gps[1];
-					if ( is_string($ort) && ($ort !== '') && is_float($lat) && is_float($lng) ) :
-						//$syndikats_orte[] = array('name' => 'Leipzig', 'latLng' => array(51.3288, 12.371));
+					if ( is_string($ort) && ($ort !== '') && is_float($lat) && is_float($lng) ) {
 						$syndikats_projekte[] = array('ort' => $ort, 'lat' => $lat, 'lng' => $lng);
-					endif;
+					}
 				?>
 			</div><!-- end of #projekt-<?php the_ID(); ?> -->       
 			<?php responsive_entry_after(); ?>
