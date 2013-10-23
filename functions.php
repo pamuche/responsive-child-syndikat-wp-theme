@@ -39,21 +39,22 @@ if ( function_exists( 'add_theme_support' ) ) {
 	add_theme_support( 'post-thumbnails' );
 }
 if ( function_exists( 'add_image_size' ) ) {
-	add_image_size( 'projekt-liste', 80, 80 );
+	add_image_size( 'projekt-liste', 80, 80, true );
+	add_image_size( 'projekt-view', 200, 9999);
 }
 
 
 // Tabellen auf der Projektseite
 function projekt_data_table($fields_to_show, $table_head) {
-	echo "<table class='projekt-data-table'>";
+	echo "<table class='daten'>";
 	
-	if( $table_head ) :
-		echo "<thead>
-				<tr>
-					<th colspan='2'>$table_head</th>
-				</tr>
-			</thead>";
-	endif;
+// 	if( $table_head ) :
+// 		echo "<thead>
+// 				<tr>
+// 					<th colspan='2'>$table_head</th>
+// 				</tr>
+// 			</thead>";
+// 	endif;
 
 	foreach( $fields_to_show as $field ) :
 		$field_value = get_field($field['name']);
@@ -61,7 +62,7 @@ function projekt_data_table($fields_to_show, $table_head) {
 			$label = $field['label'];
 			
 // 			TODO: Add case for email (antispambot wp function) and date fields
-			echo "<tr><td>$label</td><td>$field_value</td></tr>";
+			echo "<tr><td align='right'>$label:</td><td>$field_value</td></tr>";
 			
 		endif;
 	endforeach;
@@ -139,6 +140,26 @@ function projekt_liste_queryvars( $qvars )
 }
 
 
+// Prefix with protokoll if not existent
+function urlify($string) {
+	if (preg_match('/^http[s]?:\/\//', $string)) {
+		return $string;
+	} 
+	else {
+		return 'http://'.$string;
+	}
+}
+
+// Remove prefix from url to make it look nicer
+function prettify_url($url) {
+	if (preg_match('/^http[s]?:\/\/(.*)/', $url, $match)) {
+		return $match[1];
+	}
+	else {
+		return $url;
+	}
+	
+}
 
 
 

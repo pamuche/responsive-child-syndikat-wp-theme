@@ -1,7 +1,7 @@
 /*
 Theme Name:     Responsive Child Syndikat WP-Theme
 Description:    Individualisiertes Child Theme für die syndikat.org Wordpress Seite
-Author:         Michael-Zolle11
+Author:         Volker
 Template:       responsive
 
 (optional values you can add: Theme URI, Author URI, Version)
@@ -402,15 +402,37 @@ body.page .entry-title, body.page .entry-header { display: none; }
 
 
 /* Projekt/Initiativen Seiten */
-.projekt-data-table {
-/* 	width: 220px;  */
-/* 	height: 160px;  */
-/* 	background-color: #dbe6f4;  */
-/* 	padding: 10px;" */
-/* 	align="left" */
+.projektBlock {
+	width: 200px;
+}
+.projektBlock .kontakt {
+	background-color: #0cafbf;
+	color: white;
+	padding: 5px;
+}
+.projektBlock .kontakt a {
+	color: white;
+}
+.projektBlock .kontakt h1 {
+	margin: 5px;
+	color: white;
+}
+.projektBlock img {
+	margin: 0px;
 }
 
-/* /* Projekt Listen Seite */
+.projektBlock table {
+	margin: 0px;
+	border: none;
+	background-color: #ceeeed; 
+}
+.projektBlock td, .projektBlock th {
+   border: none;
+   padding: 1px;
+   padding-right: 4px;
+}
+
+/* Projekt Listen Seite */
 .projekt-entry {
 /* 	display: block; */
 /* 	height: 90px; */
