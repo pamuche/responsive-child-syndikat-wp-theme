@@ -79,7 +79,7 @@ class CSVExport
 		echo '<h2>Download Projekte</h2>';
 		//$url = site_url();
 
-		echo '<p><a href="site_url()/wp-admin/admin.php?page=download_projekte&download_projekte">Projekte und Initativen Tabelle herunterladen</a>';
+		echo '<p><a href="/wp-admin/admin.php?page=download_projekte&download_projekte">Projekte und Initativen Tabelle herunterladen</a>';
 	}
 
 	/**
