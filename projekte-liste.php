@@ -35,7 +35,7 @@ get_header(); ?>
         <?php // ################################ BEGIN SYNDIKAT CUSTOM STUFF ########################?>
 
         <?php 
-
+        
         $query_args = array(
         		'post_type' => 'projekte',
         		'nopaging' => true,
@@ -44,6 +44,8 @@ get_header(); ?>
         		'orderby'		=> 'meta_value_num',
         		'order'			=> 'ASC'
         );
+        $query_args['meta_query'][] = array('key' => 'ist_projektinititative', 'value' => 'false'); //Projekte
+//         $query_args['meta_query'][] = array('key' => 'ist_projektinititative', 'value' => true); //Initiativen
         // Documentation: http://codex.wordpress.org/Custom_Queries
         if( isset( $wp_query->query_vars['ort'] )) {
         	$query_args['meta_query'][] = array('key' => 'ort', 'value' => $wp_query->query_vars['ort']);
@@ -75,7 +77,8 @@ get_header(); ?>
         	<a href="<?php echo $link_to_projekte; ?>">Zurück zu der Liste aller Syndikatsprojekte</a>
         </p>
 		<?php endif; ?>
-                    
+
+		
         <?php while ( $loop_projekte->have_posts() ) : $loop_projekte->the_post(); ?>
         
 
@@ -84,7 +87,7 @@ get_header(); ?>
 			<div id="projekt-<?php the_ID(); ?>" <?php post_class(); ?>>       
 				<?php responsive_entry_top(); ?>
 
-                <?php //get_template_part( 'post-meta' ); ?>
+                <?php get_template_part( 'content' ); ?>
                 
                 <div class="projekt-entry">
                     <?php if ( has_post_thumbnail()) : ?>
@@ -104,8 +107,8 @@ get_header(); ?>
                     </div>
                     <div class='projektDaten'>
 						<p>
-	                      <?php output_fields_as_sentence(array('beschluss', 'kauf', 'grundstuck', 'gewerbeflache', 
-	                      					'wohnflache', 'personen', 'kosten', 'miete'))?>
+	                      <?php //output_fields_as_sentence(array('beschluss', 'kauf', 'grundstuck', 'gewerbeflache', 'wohnflache', 'personen', 'kosten', 'miete'))?>
+	                      <?php echo projekt_description() ?>
 	                    </p>
                     </div>
                     <?php //the_excerpt(); ?>

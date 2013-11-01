@@ -70,6 +70,10 @@ function projekt_data_table($fields_to_show, $table_head) {
 	echo "</table>";
 }
 
+function prettify_field($name, $value) {
+	http://www.advancedcustomfields.com/resources/field-types/date-picker/
+}
+
 // Projektkurzbeschreibung auf der Projekteliste
 function output_fields_as_sentence($fields_to_show) {
 	foreach( $fields_to_show as $field_name ) {
@@ -83,6 +87,19 @@ function output_fields_as_sentence($fields_to_show) {
 			
 		}
 	}
+}
+
+function projekt_description(){
+	$date = DateTime::createFromFormat('Ymd', get_field('grundung_mit_syndikat_oder_anteilsabtretung_an_syndikat'));
+	$entprivatisiert = $date->format('d.m.Y');
+	$wohn = get_field('wohnflache');
+	$personen = get_field('personen');
+	$gewerbe = get_field('gewerbeflache');
+	
+	return "Seit dem {$entprivatisiert} durch das Syndikat entprivatisiert. {$wohn}m² Wohnraum 
+	für {$personen} Personen und {$gewerbe}m² Fläche für Projekte oder Gewerbe.";
+	
+	"Bei der Mitgliederversammlung im Januar 2013 als Initiative aufgenommen.";
 }
 
 function map_markers_for($syndikats_projekte) {
