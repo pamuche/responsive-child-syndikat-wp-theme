@@ -86,6 +86,7 @@ class CSVExport
 	 * Converting data to CSV
 	 * 
 	 * Not easily possible to use AdvancedCustomFields because functions are not available yet.
+	 * Would have to hook into admin_head or similar to use ACF
 	 * Workaround: Use fixed list of field names
 	 */
 	public function generate_csv()
@@ -93,7 +94,7 @@ class CSVExport
 		$separator = ';';
 		$csv_output = '';
 		
-		$field_names = array('ist_projektinititative', 'plz', 'ort', 'land', 'projektgrundung', 'gmbh-grundung_ohne_syndikat',
+		$field_names = array('ist_projektinititative', 'ist_gescheitert', 'plz', 'ort', 'land', 'projektgrundung', 'gmbh-grundung_ohne_syndikat',
 				'beschluss', 'grundung_mit_syndikat_oder_anteilsabtretung_an_syndikat', 'kauf', 'erbbaurecht', 'grundstuck',
 				'gewerbeflache', 'wohnflache', 'personen', 'kosten', 'miete', 'solibeitrag', 'gmbh-name', 'adresse', 'hausverein-name',
 				'telefon', 'telefon_privat', 'name_kontaktperson', 'email', 'e-mail_privat', 'homepage', 'gps');
