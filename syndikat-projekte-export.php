@@ -3,7 +3,7 @@
 Plugin Name: Syndikat Projekte Export
 Description: Alle Projekte und Initiativen als csv datei exportieren
 Author: Michael-Zolle11
-Version: 1.0
+Version: 1.1
 License: MIT
 
 Simply copy this file into the plugins directory
@@ -79,8 +79,10 @@ class CSVExport
 		echo '<h2>Download Projekte</h2>';
 		//$url = site_url();
 
-		echo '<p><a href="/wp-admin/admin.php?page=download_projekte&download_projekte">Projekte und Initativen Tabelle herunterladen</a>';
+		echo '<p><a href="/wp-admin/admin.php?page=download_projekte&download_projekte">Projekte und Initativen Tabelle herunterladen</a></p>';
+		echo '<p>Die Datei muss mit den Einstellungen: Seperator = Semikolon, Zeichensatz = Unicode (UTF-8) in Calc importiert werden.</p>';
 	}
+
 
 	/**
 	 * Converting data to CSV
@@ -93,6 +95,8 @@ class CSVExport
 	{
 		$separator = ';';
 		$csv_output = '';
+		
+		$csv_output = $csv_output.'Name'.$separator;
 		
 		$field_names = array('ist_projektinititative', 'ist_gescheitert', 'plz', 'ort', 'land', 'projektgrundung', 'gmbh-grundung_ohne_syndikat',
 				'beschluss', 'grundung_mit_syndikat_oder_anteilsabtretung_an_syndikat', 'kauf', 'erbbaurecht', 'grundstuck',
@@ -120,18 +124,12 @@ class CSVExport
 			$csv_output = $csv_output.get_the_title($projekt_id).$separator;	
 // 		    $csv_output = $csv_output.get_post_field('post_content', $projekt->ID).$separator;
 
-			
-		
-				
-			
-			$field_names = array('ist_projektinititative', 'plz', 'ort', 'land', 'projektgrundung', 'gmbh-grundung_ohne_syndikat',
-			'beschluss', 'grundung_mit_syndikat_oder_anteilsabtretung_an_syndikat', 'kauf', 'erbbaurecht', 'grundstuck',
-			'gewerbeflache', 'wohnflache', 'personen', 'kosten', 'miete', 'solibeitrag', 'gmbh-name', 'adresse', 'hausverein-name',
-			'telefon', 'telefon_privat', 'name_kontaktperson', 'email', 'e-mail_privat', 'homepage', 'gps');
-			
+					
 			foreach( $field_names as $field_name)
 			{
-				$csv_output = $csv_output.get_post_meta($projekt_id, $field_name, true).$separator;
+				$value = get_post_meta($projekt_id, $field_name, true);
+				$value = preg_replace("/$separator/", '_-_', $value); #make csv safe
+				$csv_output = $csv_output.$value.$separator;
 			}
 			
 			
@@ -142,6 +140,9 @@ class CSVExport
 
 		return $csv_output;
 	}
+
+
+
 }
 
 // Instantiate a singleton of this plugin
