@@ -33,20 +33,26 @@ get_header(); ?>
            
            
         <?php // ################################ BEGIN SYNDIKAT CUSTOM STUFF ########################?>
-
+			
         <?php 
+        $is_projekt_page = true;
         
         $query_args = array(
         		'post_type' => 'projekte',
         		'nopaging' => true,
-        		'meta_query' => array(),
+        		'meta_query' => array(
+        				//Gescheiterte Projekte sollen hier erstmal nicht angezeigt werden
+        				array('key' => 'ist_gescheitert', 'value' => '0', 'compare' => '=='),
+        				array('key' => 'ist_projektinititative', 
+        						'value' => ($is_projekt_page ? '0' : '1'), 'compare' => '=='),
+        				'relation' => 'AND'
+        				),
         		'meta_key'		=> 'plz',
         		'orderby'		=> 'meta_value_num',
         		'order'			=> 'ASC'
         );
-        $query_args['meta_query'][] = array('key' => 'ist_projektinititative', 'value' => 'false'); //Projekte
-//         $query_args['meta_query'][] = array('key' => 'ist_projektinititative', 'value' => true); //Initiativen
-        // Documentation: http://codex.wordpress.org/Custom_Queries
+        
+		// Documentation: http://codex.wordpress.org/Custom_Queries
         if( isset( $wp_query->query_vars['ort'] )) {
         	$query_args['meta_query'][] = array('key' => 'ort', 'value' => $wp_query->query_vars['ort']);
         };
@@ -54,6 +60,8 @@ get_header(); ?>
         	$query_args['meta_query'][] = array('key' => 'land', 'value' => $wp_query->query_vars['land']);
         };
 
+        
+        
         $loop_projekte = new WP_Query( $query_args );
         $syndikats_projekte = array();
         
@@ -61,14 +69,9 @@ get_header(); ?>
                    
         <h1>
         <?php 
-        echo ($loop_projekte->post_count).' Syndikatsprojekte';
-        if( isset( $wp_query->query_vars['ort'] )) {
-        	echo ' in '.$wp_query->query_vars['ort'];
-        }
-        elseif( isset( $wp_query->query_vars['land'] )) {
-        	echo ' in '.$wp_query->query_vars['land'];
-        }
-    
+        $anzahl_projekte = $loop_projekte->post_count;
+        echo anzahl_projekte_ueberschrift($anzahl_projekte, $is_projekt_page);
+            
         ?>
         </h1>
         <?php if( isset( $wp_query->query_vars['ort'] ) || isset( $wp_query->query_vars['land'] ) ) : ?>
