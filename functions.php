@@ -87,9 +87,9 @@ function prettified_field($name) {
 	}
 	
 	if (in_array( $name, array('gmbh-grundung_ohne_syndikat', 'beschluss', 'grundung_mit_syndikat_oder_anteilsabtretung_an_syndikat', 'kauf') ) ) {
-		$date = DateTime::createFromFormat('Ymd', $value);
+		$date = date('Ymd', $value);
 		if ($date) {
-			return $date->format($date_output_format);
+			return date($date_output_format, $date);
 		}
 	}
 	
@@ -194,9 +194,9 @@ function formatDateStringGermanMonth($date) {
 			12=>"Dezember");
 	 
 	//Getting our Month
-	$monat_number = $date->format('n');
+	$monat_number = date('n', $date);
 
-	return $monate[$monat_number]." ".$date->format('Y');
+	return $monate[$monat_number]." ".date('Y', $date);
 }
 
 function map_markers_for($syndikats_projekte) {
