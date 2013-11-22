@@ -57,12 +57,11 @@ function projekt_data_table($fields_to_show, $table_head) {
 // 	endif;
 
 	foreach( $fields_to_show as $field ) :
-		$field_value = get_field($field['name']);
-		if( $field_value ):
+		$formatted_value = prettified_field($field['name']);
+		if( $formatted_value ):
 			$label = $field['label'];
 			
-// 			TODO: Add case for email (antispambot wp function) and date fields
-			echo "<tr><td align='right'>$label:</td><td>$field_value</td></tr>";
+			echo "<tr><td align='right'>$label:</td><td>$formatted_value</td></tr>";
 			
 		endif;
 	endforeach;
@@ -70,8 +69,42 @@ function projekt_data_table($fields_to_show, $table_head) {
 	echo "</table>";
 }
 
-function prettify_field($name, $value) {
-	http://www.advancedcustomfields.com/resources/field-types/date-picker/
+
+
+function prettified_field($name) {
+	
+	$date_output_format = 'd.m.Y';
+	$dec_point = ',';
+	$thousands_sep = '.';
+	
+	$value = get_field($name);
+	
+	if ($value == '') { return $value; }
+	
+	if (in_array( $name, array('grundstuck', 'wohnflache', 'gewerbeflache') ) ) {
+		$formatted_number = number_format( $value , 0 , $dec_point, $thousands_sep);
+		return "$formatted_number m²";
+	}
+	
+	if (in_array( $name, array('gmbh-grundung_ohne_syndikat', 'beschluss', 'grundung_mit_syndikat_oder_anteilsabtretung_an_syndikat', 'kauf') ) ) {
+		$date = DateTime::createFromFormat('Ymd', $value);
+		if ($date) {
+			return $date->format($date_output_format);
+		}
+	}
+	
+	if (in_array( $name, array('kosten', 'miete', 'solibeitrag') ) ) {
+		$formatted_number = number_format( $value , 2 , $dec_point, $thousands_sep);
+		return "$formatted_number €";
+	}
+	
+	if ( $name == 'plz' ) {
+		return str_pad($value, 5 ,'0', STR_PAD_LEFT);
+	}
+	
+	
+	return $value;
+// 	http://www.advancedcustomfields.com/resources/field-types/date-picker/
 }
 
 
@@ -110,14 +143,20 @@ function output_fields_as_sentence($fields_to_show) {
 }
 
 function projekt_description(){
-	$date = DateTime::createFromFormat('Ymd', get_field('grundung_mit_syndikat_oder_anteilsabtretung_an_syndikat'));
-	$entprivatisiert = $date ? $date->format('d.m.Y') : '';
-	$wohn = get_field('wohnflache');
-	$personen = get_field('personen');
-	$gewerbe = get_field('gewerbeflache');
+
+	$entprivatisiert = prettified_field('grundung_mit_syndikat_oder_anteilsabtretung_an_syndikat');
+
+	$wohn = prettified_field('wohnflache');
+	$personen = prettified_field('personen');
+	$gewerbe = prettified_field('gewerbeflache');
 	
-	return "Seit dem {$entprivatisiert} durch das Syndikat entprivatisiert. {$wohn}m² Wohnraum 
-	für {$personen} Personen und {$gewerbe}m² Fläche für Projekte oder Gewerbe.";
+	return "Seit dem {$entprivatisiert} durch das Syndikat entprivatisiert. {$wohn} Wohnraum 
+	für {$personen} Personen und {$gewerbe} Fläche für Projekte oder Gewerbe.";
+	
+	
+}
+
+function initiative_description(){
 	
 	"Bei der Mitgliederversammlung im Januar 2013 als Initiative aufgenommen.";
 }

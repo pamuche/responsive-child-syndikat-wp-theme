@@ -45,7 +45,7 @@ get_header(); ?>
 					<?php if (get_field('gmbh-name')) echo '<span class="nickname">'.get_field('gmbh-name').'</span>'; ?>
  					<div class="adr">
  					<?php if (get_field('adresse')) echo '<span class="street-address">'.get_field('adresse').'</span>,'; ?>
- 					<?php if (get_field('plz')) echo '<span class="postal-code">'.get_field('plz').'</span>'; ?>
+ 					<?php if (get_field('plz')) echo '<span class="postal-code">'.prettified_field('plz').'</span>'; ?>
  					<?php if (get_field('ort')) echo '<span class="locality">'.get_field('ort').'</span>'; ?>
  				    </div>				
  					<?php if (get_field('telefon')) echo '<span class="tel">'.get_field('telefon').'</span>'; ?>	     
