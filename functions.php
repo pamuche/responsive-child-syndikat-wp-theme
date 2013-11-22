@@ -57,10 +57,10 @@ function projekt_data_table($fields_to_show, $table_head) {
 // 	endif;
 
 	foreach( $fields_to_show as $field ) :
-		$formatted_value = prettified_field($field['name']);
-		if( $formatted_value ):
+		$value_present = get_field($field['name']);
+		if( $value_present ):
 			$label = $field['label'];
-			
+			$formatted_value = prettified_field($field['name']);
 			echo "<tr><td align='right'>$label:</td><td>$formatted_value</td></tr>";
 			
 		endif;
@@ -142,6 +142,10 @@ function output_fields_as_sentence($fields_to_show) {
 	}
 }
 
+function projekt_or_initiative_description($is_projekt_page) {
+	return $is_projekt_page ? projekt_description() : initiative_description();
+}
+
 function projekt_description(){
 
 	$entprivatisiert = prettified_field('grundung_mit_syndikat_oder_anteilsabtretung_an_syndikat');
@@ -150,15 +154,49 @@ function projekt_description(){
 	$personen = prettified_field('personen');
 	$gewerbe = prettified_field('gewerbeflache');
 	
-	return "Seit dem {$entprivatisiert} durch das Syndikat entprivatisiert. {$wohn} Wohnraum 
-	für {$personen} Personen und {$gewerbe} Fläche für Projekte oder Gewerbe.";
+	$description = "Seit dem {$entprivatisiert} durch das Syndikat entprivatisiert. {$wohn} Wohnraum 
+	für {$personen} Personen";
+	
+	if ($gewerbe != '0 m²') {
+		$description = $description." und {$gewerbe} Fläche für Projekte oder Gewerbe";
+	}
+	
+	$description = $description.'.';
+	
+	return $description;
 	
 	
 }
 
 function initiative_description(){
+	$date = DateTime::createFromFormat('Ymd', get_field('beschluss'));
+	if ($date) {
+		return "Auf der Mitgliederversammlung im ".formatDateStringGermanMonth($date)." als Initiative aufgenommen.";
+	}
 	
-	"Bei der Mitgliederversammlung im Januar 2013 als Initiative aufgenommen.";
+	return "Als Initiative aufgenommen.";
+}
+
+function formatDateStringGermanMonth($date) {
+	//initalise String:
+	//Gettting the months set up...
+	$monate = array(1=>"Januar",
+			2=>"Februar",
+			3=>"M&auml;rz",
+			4=>"April",
+			5=>"Mai",
+			6=>"Juni",
+			7=>"Juli",
+			8=>"August",
+			9=>"September",
+			10=>"Oktober",
+			11=>"November",
+			12=>"Dezember");
+	 
+	//Getting our Month
+	$monat_number = $date->format('n');
+
+	return $monate[$monat_number]." ".$date->format('Y');
 }
 
 function map_markers_for($syndikats_projekte) {

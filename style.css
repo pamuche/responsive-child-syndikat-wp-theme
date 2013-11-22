@@ -434,12 +434,18 @@ body.page .entry-title, body.page .entry-header { display: none; }
 
 /* Projekt Listen Seite */
 .projekt-entry {
-/* 	display: block; */
-/* 	height: 90px; */
-overflow:auto;
+	min-height: 90px;
+	overflow:auto;
+}
+.projektName {
+/* 	margin-top: -14px; */
 }
 .projektName a {
 	font-size: 18px;
+}
+.projekt-entry p {
+	margin: 7px;
+	margin-bottom: 0px;
 }
 
 #map {

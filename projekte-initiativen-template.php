@@ -102,8 +102,7 @@ get_header(); ?>
                     </div>
                     <div class='projektDaten'>
 						<p>
-	                      <?php //output_fields_as_sentence(array('beschluss', 'kauf', 'grundstuck', 'gewerbeflache', 'wohnflache', 'personen', 'kosten', 'miete'))?>
-	                      <?php echo projekt_description() ?>
+	                      <?php echo projekt_or_initiative_description($is_projekt_page) ?>
 	                    </p>
                     </div>
                     <?php //the_excerpt(); ?>
