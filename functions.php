@@ -94,8 +94,8 @@ function prettified_field($name) {
 	}
 	
 	if (in_array( $name, array('kosten', 'miete', 'solibeitrag') ) ) {
-		$formatted_number = number_format( $value , 2 , $dec_point, $thousands_sep);
-		return "$formatted_number €";
+		$formatted_number = number_format( $value , 0 , $dec_point, $thousands_sep);
+		return "$formatted_number,- €";
 	}
 	
 	if ( $name == 'plz' ) {
