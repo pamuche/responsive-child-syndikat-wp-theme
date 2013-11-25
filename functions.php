@@ -87,7 +87,7 @@ function prettified_field($name) {
 	}
 	
 	if (in_array( $name, array('gmbh-grundung_ohne_syndikat', 'beschluss', 'grundung_mit_syndikat_oder_anteilsabtretung_an_syndikat', 'kauf') ) ) {
-		$date = $date = strtotime($value);
+		$date = strtotime($value);
 		if ($date) {
 			return date($date_output_format, $date);
 		}
