@@ -43,6 +43,15 @@ if ( function_exists( 'add_image_size' ) ) {
 	add_image_size( 'projekt-view', 200, 9999);
 }
 
+// Hide Email from Spam Bots using a short code
+function HideMail($atts , $content = null ){
+	if ( ! is_email ($content) )
+		return;
+
+	return '<a href="mailto:'.antispambot($content).'">'.antispambot($content).'</a>';
+}
+add_shortcode( 'email','HideMail');
+
 
 // Tabellen auf der Projektseite
 function projekt_data_table($fields_to_show, $table_head) {
