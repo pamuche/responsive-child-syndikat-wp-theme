@@ -40,17 +40,17 @@ get_header(); ?>
 				<div class="projektBlock alignleft">
 				<div class="vcard kontakt">
 					<h1 class="fn org"><?php the_title()?></h1>
-					<?php if (get_field('gmbh-name')) echo '<span class="nickname">'.get_field('gmbh-name').'</span>'; ?>
+					<?php if (get_field('gmbh-name')) echo '<span class="nickname">'.get_field('gmbh-name').'</span><br>'; ?>
  					<div class="adr">
- 					<?php if (get_field('adresse')) echo '<span class="street-address">'.get_field('adresse').'</span>,'; ?>
+ 					<?php if (get_field('adresse')) echo '<span class="street-address">'.get_field('adresse').'</span>,<br>'; ?>
  					<?php if (get_field('plz')) echo '<span class="postal-code">'.prettified_field('plz').'</span>'; ?>
- 					<?php if (get_field('ort')) echo '<span class="locality">'.get_field('ort').'</span>'; ?>
+ 					<?php if (get_field('ort')) echo '<span class="locality">'.get_field('ort').'</span><br>'; ?>
  				    </div>				
- 					<?php if (get_field('telefon')) echo '<span class="tel">'.get_field('telefon').'</span>'; ?>	     
+ 					<?php if (get_field('telefon')) echo '<span class="tel">'.get_field('telefon').'</span><br>'; ?>	     
 					<?php if (get_field('email')) 
-						echo '<a class="email" href="mailto:'.antispambot(get_field('email')).'">'.antispambot(get_field('email')).'</a>'; ?>
+						echo '<a class="email" href="mailto:'.antispambot(get_field('email')).'">'.antispambot(get_field('email')).'</a><br>'; ?>
  					<?php if (get_field('homepage')) 
-						echo '<a class="url" href="'.urlify(get_field('homepage')).'">'.prettify_url(get_field('homepage')).'</a>'; ?>
+						echo '<a class="url" href="'.urlify(get_field('homepage')).'">'.prettify_url(get_field('homepage')).'</a><br>'; ?>
 
  				</div>
                 <?php echo get_the_post_thumbnail(get_the_ID(), 'projekt-view'); ?>
