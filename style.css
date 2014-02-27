@@ -404,6 +404,7 @@ body.page .entry-title, body.page .entry-header { display: none; }
 /* Projekt/Initiativen Seiten */
 .projektBlock {
 	width: 200px;
+	word-wrap: break-word;
 }
 .projektBlock .kontakt {
 	background-color: #0cafbf;

@@ -42,7 +42,7 @@ get_header(); ?>
 					<h1 class="fn org"><?php the_title()?></h1>
 					<?php if (get_field('gmbh-name')) echo '<span class="nickname">'.get_field('gmbh-name').'</span><br>'; ?>
  					<div class="adr">
- 					<?php if (get_field('adresse')) echo '<span class="street-address">'.get_field('adresse').'</span>,<br>'; ?>
+ 					<?php if (get_field('adresse')) echo '<span class="street-address">'.get_field('adresse').'</span><br>'; ?>
  					<?php if (get_field('plz')) echo '<span class="postal-code">'.prettified_field('plz').'</span>'; ?>
  					<?php if (get_field('ort')) echo '<span class="locality">'.get_field('ort').'</span><br>'; ?>
  				    </div>				
