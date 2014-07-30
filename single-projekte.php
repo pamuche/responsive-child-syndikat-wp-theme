@@ -92,5 +92,24 @@ get_header(); ?>
       
 </div><!-- end of #content -->
 
-<?php get_sidebar(); ?>
+    
+<?php 
+
+// Widgets in der Sidebar(rechts) einbauen für Karte / Bildergalerie
+//eigene scripte/styles registrieren 
+$used_theme = get_stylesheet_directory_uri();
+// wp_enqueue_script('cycle', $used_theme . '/js/jquery.cycle.all.js');     // momentan nicht gewünscht
+// wp_enqueue_style('slideshow', $used_theme . '/css/slideshow.css');       // dito
+
+wp_enqueue_script('openlayers', 'http://www.openlayers.org/api/OpenLayers.js');
+wp_enqueue_script('openstreetmap', 'http://www.openstreetmap.org/openlayers/OpenStreetMap.js');
+        
+wp_enqueue_script('karte',$used_theme . '/js/projektkarte.js');
+wp_enqueue_style('map', $used_theme . '/css/map.css');
+wp_enqueue_script('colorbox', $used_theme . '/js/jquery.colorbox.js');
+wp_enqueue_style('colorbox', $used_theme . '/css/colorbox.css');
+wp_enqueue_style('galerie', $used_theme . '/css/galerie.css');
+?>
+
+<?php get_sidebar('right'); ?>
 <?php get_footer(); ?>

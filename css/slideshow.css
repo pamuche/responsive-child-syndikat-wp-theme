@@ -1,0 +1,32 @@
+/* 
+    Document   : slideshow
+    Created on : 20.03.2014, 14:01:38
+    Author     : erich
+    Description:
+        Purpose of the stylesheet follows.
+*/
+.widget-text {
+    min-height:150px;
+}
+.blindtext {
+    display: none;
+}
+#slideshow {
+    /*min-height:200px;
+    position: relative;*/
+    width: 100%;
+    height: 200px;
+    overflow: no-display;
+}
+
+#slideshow img {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    max-height: 155px;
+    padding: 5px;
+    /*width: 200px;*/
+    max-height: 200px;
+    /*visibility: hidden;*/
+}
+

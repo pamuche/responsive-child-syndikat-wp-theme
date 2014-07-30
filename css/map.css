@@ -1,0 +1,26 @@
+/* 
+    Document   : map.css
+    Created on : 22.03.2014, 19:12:28
+    Author     : erich
+    Description:
+        Purpose of the stylesheet follows.
+*/
+/*
+#map {
+  height: 86%;
+  width: 96%;
+  padding: 0; margin: 0;
+}
+ 
+
+ 
+#osm {
+  font-size: 0.7em;
+  font-style: italic;
+  margin-bottom: 20px;
+}
+
+*/
+#karte {
+    height: 200px;
+}

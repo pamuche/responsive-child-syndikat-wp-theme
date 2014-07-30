@@ -307,7 +307,129 @@ function prettify_url($url) {
 	
 }
 
+// ****************************************************************
+// Projekt-eigene Widgets für Karte und Bildergalerie konstruieren
 
+/**
+ * widgets registrieren
+ */
+function widget_sidebar_init() {
+	wp_register_sidebar_widget('Projektkarte', 'Projektkarte', 'widget_sidebar_karte', array('description' => 'Karte einfügen'));
+	wp_register_sidebar_widget('Projektbilder', 'Projektbilder', 'widget_sidebar_galerie', array('description' => 'Bildergalerie einfügen'));
+}
 
+/**
+ *
+ * @param type $args Der html-text eines widgets in kompakter Form.
+ * Mit extract in die Bestandteile auspacken
+ */
+function widget_sidebar_karte($args) {
+	extract($args);
+	echo $before_widget;
+	$id = get_the_ID();
+	$post_type = get_post_type($id);
+	// nur auf projektseiten
+	if( 'projekte' == $post_type) {
+		// Anker setzen
+		echo '<div id="karte"></div>';
+		$meta = get_metadata('post', get_the_ID(), 'gps');
+		$latlon = explode(',', $meta[0]);
+		echo '<script type="text/javascript">jQuery(document).ready(function($){
+		drawmap(' . $latlon[1] . ',' . $latlon[0] . ');
+	});</script>';
+	}
+	echo $after_widget;
+}
+
+function widget_sidebar_galerie($args) {
+	extract($args);
+	echo $before_widget;
+	$id = get_the_ID();
+	$post_type = get_post_type($id);
+	// nur bei projektseiten
+	if ('projekte' == $post_type) {
+		$posts = get_children($id);
+		// sollte eigentlich immer projektbild geben aber ...
+		if (!is_bool($posts)) {
+			$galerie = '<div id="galerie">';
+			$link_start = '<a class="galerie" href="';
+			$link_middle = '" rel="colorbox"> ';
+			$link_end = '</a>';
+			$box_start = '<div class="bildbox"';
+			$box_end = '</div>';
+			$i = 0;     // bildzähler
+			//echo '<h3>Bildergalerie</h3>';
+			foreach ($posts as $post) :
+			// können auch Videos eingebaut werden?
+			if ($post->post_type == 'attachment' && preg_match("/image/", $post->post_mime_type)) :
+			// url besorgen
+			$url = $post->guid;
+			// nur Bilder aus eigenem Web-Space
+			$url = preg_replace('|http://[^/]+|', '', $url);
+			$directory = preg_replace('|(.*/).*|', '$1', $url);
+			// nur erstes Bild als Vorschau
+			if ($i):
+			$hidden = 'style="display: none"> ';
+			$bild = '';
+			else :
+			$meta = get_post_meta($post->ID, '_wp_attachment_metadata');
+			if (key_exists('medium', $meta[0]['sizes'])) :
+			$thumb = $directory . $meta[0]['sizes']['medium']['file'];
+			else :
+			$thumb = $url;
+			endif;
+			$hidden = '>';
+			$bild = '<img title="zur Bildergalerie" src="' . $thumb . '"></img>';
+			endif;
+			$image = $link_start . $url . $link_middle . $bild . $link_end;
+			$galerie = $galerie . $box_start . $hidden . $image . $box_end;
+			$i++;
+			endif;
+			endforeach;
+			$galerie .= '</div>';
+			echo $galerie;
+			echo '<script type="text/javascript">jQuery(document).ready(function(){
+			jQuery("a.galerie").colorbox({rel:"colorbox",width:"600",height:"500"});
+		});</script>';
+		}
+	}
+	echo $after_widget;
+}
+
+add_action('widgets_init', 'widget_sidebar_init');
+// **************  Ende widgets
+
+// Shortcodes
+// Die Anzahl der Projekte  überall dort anzeigen, wo   [anzahl_projekte]   steht z.B. Standortkarte
+function anzahl_projekte(){
+	global $wpdb;
+	$query = "select count(ID) from wp_posts
+	join wp_postmeta on wp_posts.ID=wp_postmeta.post_id
+	join wp_postmeta meta on wp_posts.ID=meta.post_id
+	join wp_term_relationships on wp_posts.ID=wp_term_relationships.object_id
+	where post_type='projekte'
+	and post_status='publish'
+	and wp_postmeta.meta_key='ist_projektinititative' and wp_postmeta.meta_value=0
+	and meta.meta_key='ist_gescheitert' and meta.meta_value=0
+	and wp_term_relationships.term_taxonomy_id=28"; // Annahme dass deutsch die Nr. 28 hat, sonst ändern
+	return $wpdb->get_var($query);
+}
+add_shortcode("anzahl_projekte", "anzahl_projekte");
+
+// dito mit den Inis [anzahl_inis]
+function anzahl_inis(){
+	global $wpdb;
+	$query = "select count(ID) from wp_posts
+	join wp_postmeta on wp_posts.ID=wp_postmeta.post_id
+	join wp_postmeta meta on wp_posts.ID=meta.post_id
+	join wp_term_relationships on wp_posts.ID=wp_term_relationships.object_id
+	where post_type='projekte'
+	and post_status='publish'
+	and wp_postmeta.meta_key='ist_projektinititative' and wp_postmeta.meta_value=1
+	and meta.meta_key='ist_gescheitert' and meta.meta_value=0
+	and wp_term_relationships.term_taxonomy_id=28"; // siehe oben
+	return $wpdb->get_var($query);
+}
+add_shortcode("anzahl_inis", "anzahl_inis");
 
 ?>

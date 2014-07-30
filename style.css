@@ -454,4 +454,23 @@ body.page .entry-title, body.page .entry-header { display: none; }
      height:400px; 
 }
 
- 
+/* Video-Seite */
+.syn_video {
+  clear: both;
+  
+}
+.syn_video-content {
+   margin: 0 20px 20px 0;
+   float: left;
+ }
+
+ .syn_video-text .headline{
+     font-size: 18px;
+     font-weight: bold;
+
+ }
+ .zwischentext {
+     clear: both;
+     margin-bottom: 20px;
+     padding-top: 50px;
+ } 

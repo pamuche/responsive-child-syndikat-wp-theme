@@ -1,0 +1,27 @@
+/* 
+    Document   : galerie.css
+    Created on : 24.03.2014, 15:01:17
+    Author     : erich
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+#galerie {
+    
+    /*margin: 0 10px;*/
+    
+}
+
+.bildbox img {
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+	cursor: -moz-zoom-in;
+    cursor: -webkit-zoom-in;
+}
+#galerie .bildbox {
+    background-color: transparent;
+}
+
+
