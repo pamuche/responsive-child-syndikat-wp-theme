@@ -20,5 +20,9 @@ $meta_query_for_projekte = array(
 		'relation' => 'AND'
 );
 
+$description_of_type = __('Projekte zeichnen sich dadurch aus, dass sie alle entscheidenden Schritte, '
+		.'also die Gründung einer Haus GmbH mit Syndikatsbeteiligung und den Kauf eines Hauses und/oder '
+		.'eines Grundstücks bereits hinter sich gebracht haben.');
+
 include 'projekte-initiativen-template.php'
 ?>

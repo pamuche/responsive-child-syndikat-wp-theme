@@ -19,5 +19,11 @@ $meta_query_for_projekte = array(
 		'relation' => 'AND'
 );
 
+$description_of_type = __('Projektinitiativen haben einen Hausverein, der Mitglied im Verein Mietshäuser Syndikat ist. '
+		.'Sie haben in den meisten Fällen ein konkretes Haus, welches sie erwerben wollen und die Syndikatsversammlung '
+		.'hat den Beschluss gefasst, mit der jeweiligen Initiative eine Haus GmbH zu gründen. Oft fehlt noch der Kauf '
+		.'und/oder die Beteiligung durch die Mietshäuser Syndikat GmbH. Erst wenn alles "geschafft" ist, wird eine '
+		.'Initiative zum Projekt.');
+
 include 'projekte-initiativen-template.php'
 ?>

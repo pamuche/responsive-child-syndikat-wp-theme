@@ -70,6 +70,9 @@ get_header(); ?>
         </p>
 		<?php endif; ?>
 
+		<p>
+		<?php echo $description_of_type; ?>
+		</p>
 		
         <?php while ( $loop_projekte->have_posts() ) : $loop_projekte->the_post(); ?>
         

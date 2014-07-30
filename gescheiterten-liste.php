@@ -18,5 +18,7 @@ $meta_query_for_projekte = array(
 		array('key' => 'ist_gescheitert', 'value' => '1', 'compare' => '==')
 );
 
+$description_of_type = __('');
+
 include 'projekte-initiativen-template.php'
 ?>
