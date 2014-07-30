@@ -102,13 +102,20 @@ function prettified_field($name) {
 		}
 	}
 	
-	if (in_array( $name, array('kosten', 'miete', 'solibeitrag') ) ) {
+	if (in_array( $name, array('kosten', 'solibeitrag') ) ) {
 		$formatted_number = number_format( $value , 0 , $dec_point, $thousands_sep);
 		return "$formatted_number €";
 	}
 	
 	if ( $name == 'plz' ) {
 		return str_pad($value, 5 ,'0', STR_PAD_LEFT);
+	}
+	
+	if ( $name == 'miete' ){
+		$total_sqm = floatval(get_field('wohnflache')) + floatval(get_field('gewerbeflache'));
+		$euro_per_sqm_per_month = $value / $total_sqm / 12;
+		$formatted_number = number_format( $euro_per_sqm_per_month , 2 , $dec_point, $thousands_sep);
+		return "$formatted_number €/m²";
 	}
 	
 	
