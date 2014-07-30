@@ -130,12 +130,13 @@ class CSVExport
 				$value = get_post_meta($projekt_id, $field_name, true);
 				$value = preg_replace("/$separator/", '_-_', $value); #make csv safe
 				
-				if (in_array( $field_name, array('gmbh-grundung_ohne_syndikat', 'beschluss', 'grundung_mit_syndikat_oder_anteilsabtretung_an_syndikat', 'kauf') ) ) {
-					$date = strtotime($value);
-					if ($date) {
-						$value =  date('Y-m-d', $date);
-					}
-				}
+//				This was deleted by somebody - but why?
+// 				if (in_array( $field_name, array('gmbh-grundung_ohne_syndikat', 'beschluss', 'grundung_mit_syndikat_oder_anteilsabtretung_an_syndikat', 'kauf') ) ) {
+// 					$date = strtotime($value);
+// 					if ($date) {
+// 						$value =  date('Y-m-d', $date);
+// 					}
+// 				}
 				
 				$csv_output = $csv_output.$value.$separator;
 			}
