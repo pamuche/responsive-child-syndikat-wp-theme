@@ -25,34 +25,31 @@ get_header(); ?>
            
            
         <?php // ################################ BEGIN SYNDIKAT CUSTOM STUFF ########################?>
-			
-        <?php 
-        $is_projekt_page = $is_projekt_page ? true : false;
-        
+
+        <?php
+
         $query_args = array(
         		'post_type' => 'projekte',
         		'nopaging' => true,
-        		'meta_query' => array(
-        				//Gescheiterte Projekte sollen hier erstmal nicht angezeigt werden
-        				array('key' => 'ist_gescheitert', 'value' => '0', 'compare' => '=='),
-        				array('key' => 'ist_projektinititative', 
-        						'value' => ($is_projekt_page ? '0' : '1'), 'compare' => '=='),
-        				'relation' => 'AND'
-        				),
+        		'meta_query' => $meta_query_for_projekte,
         		'meta_key'		=> 'plz',
         		'orderby'		=> 'meta_value_num',
         		'order'			=> 'ASC'
         );
-        
+
 		// Documentation: http://codex.wordpress.org/Custom_Queries
+		$ort_oder_land = false;
         if( isset( $wp_query->query_vars['ort'] )) {
-        	$query_args['meta_query'][] = array('key' => 'ort', 'value' => $wp_query->query_vars['ort']);
+        	$ort_oder_land = $wp_query->query_vars['ort'];
+        	$query_args['meta_query'][] = array('key' => 'ort', 'value' => $ort_oder_land);
+        	
         };
         if( isset( $wp_query->query_vars['land'] )) {
-        	$query_args['meta_query'][] = array('key' => 'land', 'value' => $wp_query->query_vars['land']);
+        	$ort_oder_land = $wp_query->query_vars['land'];
+        	$query_args['meta_query'][] = array('key' => 'land', 'value' => $ort_oder_land);
+        	
         };
 
-        
         
         $loop_projekte = new WP_Query( $query_args );
         $syndikats_projekte = array();
@@ -62,7 +59,7 @@ get_header(); ?>
         <h1>
         <?php 
         $anzahl_projekte = $loop_projekte->post_count;
-        echo anzahl_projekte_ueberschrift($anzahl_projekte, $is_projekt_page);
+        echo anzahl_projekte_ueberschrift($anzahl_projekte, $projekte_liste_typ, $ort_oder_land);
             
         ?>
         </h1>
@@ -102,7 +99,7 @@ get_header(); ?>
                     </div>
                     <div class='projektDaten'>
 						<p>
-	                      <?php echo projekt_or_initiative_description($is_projekt_page) ?>
+	                      <?php echo projekt_or_initiative_description($projekte_liste_typ) ?>
 	                    </p>
                     </div>
                     <?php //the_excerpt(); ?>

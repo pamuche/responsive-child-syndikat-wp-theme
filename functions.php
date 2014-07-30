@@ -117,19 +117,22 @@ function prettified_field($name) {
 }
 
 
-function anzahl_projekte_ueberschrift($count, $is_projekt_page) {
-	if( $is_projekt_page ) {
+function anzahl_projekte_ueberschrift($count, $projekte_liste_typ, $ort_oder_land) {
+	if( $projekte_liste_typ == 'projekte' ) {
 		$ueberschrift = ($count == 1) ? "Ein Syndikatsprojekt" : "$count Syndikatsprojekte";
 	}
-	else {
+	elseif( $projekte_liste_typ == 'initiativen' ) {
 		$ueberschrift = ($count == 1) ? "Eine Syndikatsinitiative" : "$count Syndikatsinitiativen";
 	}
-	 
-	if( isset( $wp_query->query_vars['ort'] )) {
-		$ueberschrift = $ueberschrift.' in '.$wp_query->query_vars['ort'];
+	elseif( $projekte_liste_typ == 'gescheiterten' ) {
+		$ueberschrift = ($count == 1) ? "Ein nicht realisiertes Syndikatsprojekt" : "$count nicht realisierte Syndikatsprojekte";
 	}
-	elseif( isset( $wp_query->query_vars['land'] )) {
-		$ueberschrift.' in '.$wp_query->query_vars['land'];
+	else {
+		$ueberschrift = "$count";
+	}
+	 
+	if( $ort_oder_land ) {
+		$ueberschrift = $ueberschrift.' in '.$ort_oder_land;
 	}
 	
 	return $ueberschrift;
@@ -151,8 +154,16 @@ function output_fields_as_sentence($fields_to_show) {
 	}
 }
 
-function projekt_or_initiative_description($is_projekt_page) {
-	return $is_projekt_page ? projekt_description() : initiative_description();
+function projekt_or_initiative_description($projekte_liste_typ) {
+	if( $projekte_liste_typ == 'projekte' ) {
+		return projekt_description();
+	}
+	elseif( $projekte_liste_typ == 'initiativen' ) {
+		return initiative_description();
+	}
+	elseif( $projekte_liste_typ == 'gescheiterten' ) {
+		return gescheitert_description();
+	}
 }
 
 function projekt_description(){
@@ -184,6 +195,18 @@ function initiative_description(){
 	}
 	
 	return "Als Initiative aufgenommen.";
+}
+
+function gescheitert_description(){
+	$description = "";
+	$date = strtotime(get_field('beschluss'));
+	if ($date) {
+		$description = $description."Die Beteiligung wurde auf der Mitgliederversammlung im ";
+		$description = $description.formatDateStringGermanMonth($date)."  beschlossen. ";
+	}
+
+	$description = $description."Das Projekt wurde leider nicht realisiert.";
+	return $description;
 }
 
 function formatDateStringGermanMonth($date) {
