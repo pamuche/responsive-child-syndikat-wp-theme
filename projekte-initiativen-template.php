@@ -156,14 +156,14 @@ get_header(); ?>
 						<?php else : ?>
 							<ul>
 								<?php foreach( $laender as $land => $daten ) : ?>
-								<li><a href="<?php echo get_post_type_archive_link( 'Projekte' ).'?land='.$land;?>"> <?php echo projekte_in_sentence($land, $daten['count']);?>
+								<li><a href="<?php echo get_post_type_archive_link( 'Projekte' ).'?land='.$land;?>"> <?php echo projekte_in_sentence($land, $daten['count'], $projekte_liste_typ);?>
 								</a>
 								</li>
 								<?php endforeach; ?>
 							</ul>
 							<ul>
 								<?php foreach( $orte as $ort => $daten ) : ?>
-								<li><a href="<?php echo get_post_type_archive_link( 'Projekte' ).'?ort='.$ort;?>"> <?php echo projekte_in_sentence($ort, $daten['count']);?>
+								<li><a href="<?php echo get_post_type_archive_link( 'Projekte' ).'?ort='.$ort;?>"> <?php echo projekte_in_sentence($ort, $daten['count'], $projekte_liste_typ);?>
 								</a>
 								</li>
 								<?php endforeach; ?>
@@ -174,7 +174,7 @@ get_header(); ?>
 					</div>
 				</div>
         <?php 
-			$map_markers = map_markers_for($syndikats_projekte); 
+			$map_markers = map_markers_for($syndikats_projekte, $projekte_liste_typ); 
 			wp_localize_script( 'jvectormap-map_config', 'syndikats_orte', $map_markers );
         ?>
 <?php get_footer(); ?>

@@ -238,7 +238,7 @@ function formatDateStringGermanMonth($date) {
 	return $monate[$monat_number]." ".date('Y', $date);
 }
 
-function map_markers_for($syndikats_projekte) {
+function map_markers_for($syndikats_projekte, $projekte_liste_typ) {
 
 	$syndikats_orte = count_projekte_per_place($syndikats_projekte);
 	
@@ -248,7 +248,7 @@ function map_markers_for($syndikats_projekte) {
 		$lat_average = $daten['lat'] / $anzahl_projekte_im_ort;
 		$lng_average = $daten['lng'] / $anzahl_projekte_im_ort;
 		
-		$map_marker[] = array( 'name' => projekte_in_sentence($ort, $anzahl_projekte_im_ort),
+		$map_marker[] = array( 'name' => projekte_in_sentence($ort, $anzahl_projekte_im_ort, $projekte_liste_typ),
 				'latLng' => array($lat_average, $lng_average),
 				'count' => $anzahl_projekte_im_ort,
 				'r' => $anzahl_projekte_im_ort);
@@ -257,8 +257,17 @@ function map_markers_for($syndikats_projekte) {
 	return $map_marker;
 }
 
-function projekte_in_sentence($place, $count) {
-	$projekte_in = ($count == 1) ? ' Projekt in ' : ' Projekte in ';
+function projekte_in_sentence($place, $count, $projekte_liste_typ) {
+	if( $projekte_liste_typ == 'projekte' ) {
+		$projekte_in = ($count == 1) ? ' Projekt in ' : ' Projekte in ';
+	}
+	elseif( $projekte_liste_typ == 'initiativen' ) {
+		$projekte_in = ($count == 1) ? ' Initiative in ' : ' Initiativen in ';
+	}
+	elseif( $projekte_liste_typ == 'gescheiterten' ) {
+		$projekte_in = ($count == 1) ? ' nicht realisiertes Projekt in ' : ' nicht realisierte Projekte in ';
+	}
+	
 	$sentence = $count.$projekte_in.$place.'.';
 	return $sentence;
 }
