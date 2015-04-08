@@ -75,35 +75,27 @@ get_header(); ?>
 		</p>
 		
         <?php while ( $loop_projekte->have_posts() ) : $loop_projekte->the_post(); ?>
-        
-
-  
+				<hr class="projektLinie">
 			<?php responsive_entry_before(); ?>
 			<div id="projekt-<?php the_ID(); ?>" <?php post_class(); ?>>       
 				<?php responsive_entry_top(); ?>
-
                 <?php get_template_part( 'content' ); ?>
-                
                 <div class="projekt-entry">
+										<div class="projektBild">
                     <?php if ( has_post_thumbnail()) : ?>
                         <a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" >
-                    <?php the_post_thumbnail('projekt-liste', array('class' => 'alignleft')); ?>
+                    <?php the_post_thumbnail('projekt-liste', array()); ?>
                         </a>
                     <?php endif; ?>
-                    <div class='projektName'>
-                      <p>
+										</div>
+                    <div class='projektNameDesc'>
                       <a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>" >
                        <?php the_title ()?>
                       </a>
-                      
                       <?php if(get_field('plz') && get_field('ort') && get_field('land')) { 
                       	echo 'in '.prettified_field('plz').' '.get_field('ort') . ', '.get_field('land').'.'; } ?>
-                      </p>
-                    </div>
-                    <div class='projektDaten'>
-						<p>
+												<br>
 	                      <?php echo projekt_or_initiative_description($projekte_liste_typ) ?>
-	                    </p>
                     </div>
                     <?php //the_excerpt(); ?>
                     <?php wp_link_pages(array('before' => '<div class="pagination">' . __('Pages:', 'responsive'), 'after' => '</div>')); ?>
@@ -127,7 +119,6 @@ get_header(); ?>
 				?>
 			</div><!-- end of #projekt-<?php the_ID(); ?> -->       
 			<?php responsive_entry_after(); ?>
-            
         <?php 
 		endwhile; 
 

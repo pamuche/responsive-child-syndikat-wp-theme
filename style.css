@@ -438,10 +438,22 @@ body.page .entry-title, body.page .entry-header { display: none; }
 	min-height: 90px;
 	overflow:auto;
 }
-.projektName {
-/* 	margin-top: -14px; */
+
+.projektBild {
+	float: left;
+	min-height: 80px;
+	min-width: 100px;
+	overflow: hidden;
 }
-.projektName a {
+
+.projektLinie {
+	margin: 0.8em 0;
+}
+
+.projektBild img {
+	max-height: 80px;
+}
+.projektNameDesc a {
 	font-size: 18px;
 }
 .projekt-entry p {

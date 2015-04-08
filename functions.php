@@ -39,7 +39,7 @@ if ( function_exists( 'add_theme_support' ) ) {
 	add_theme_support( 'post-thumbnails' );
 }
 if ( function_exists( 'add_image_size' ) ) {
-	add_image_size( 'projekt-liste', 80, 80, true );
+	add_image_size( 'projekt-liste', 80, 9999, FALSE );
 	add_image_size( 'projekt-view', 200, 9999);
 }
 
@@ -181,11 +181,11 @@ function projekt_description(){
 	$personen = prettified_field('personen');
 	$gewerbe = prettified_field('gewerbeflache');
 	
-	$description = "Seit dem {$entprivatisiert} durch das Syndikat entprivatisiert. {$wohn} Wohnraum 
+	$description = "Seit dem {$entprivatisiert} durch das Syndikat entprivatisiert.<br/>{$wohn} Wohnraum 
 	für {$personen} Personen";
 	
 	if ($gewerbe != '0 m²') {
-		$description = $description." und {$gewerbe} Fläche für Projekte oder Gewerbe";
+		$description = $description."<br/>{$gewerbe} Fläche für Projekte oder Gewerbe";
 	}
 	
 	$description = $description.'.';
@@ -448,4 +448,21 @@ function anzahl_inis(){
 }
 add_shortcode("anzahl_inis", "anzahl_inis");
 
+function anzahl_gescheiterte(){
+	global $wpdb;
+	$query = "select count(ID) from wp_posts
+	join wp_postmeta on wp_posts.ID=wp_postmeta.post_id
+	join wp_postmeta meta on wp_posts.ID=meta.post_id
+	join wp_term_relationships on wp_posts.ID=wp_term_relationships.object_id
+	where post_type='projekte'
+	and post_status='publish'
+	and wp_postmeta.meta_key='ist_projektinititative' 
+	and meta.meta_key='ist_gescheitert' and meta.meta_value=1
+	and wp_term_relationships.term_taxonomy_id=28"; // siehe oben
+	return $wpdb->get_var($query);
+}
+add_shortcode('gescheiterte','anzahl_gescheiterte');
+
+//damit es auch in (Text)Widgets funktioniert
+add_filter('widget_text','do_shortcode');
 ?>
